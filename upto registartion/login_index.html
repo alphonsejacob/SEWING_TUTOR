@@ -1,0 +1,74 @@
+<?php
+include_once 'connection.php';
+SESSION_start(); //database connection page
+if(isset($_POST["submit"]))
+{
+	echo "Invalid username or password";
+	$username=$_POST["email_id"];   //username value from the form
+	$password=$_POST["password"];	//password value from the form
+	//echo $username;//
+	$sql="SELECT * FROM `tbl_login` WHERE email_id=='username' and pswd='password'";//value querried from the table
+	$res=mysqli_query($con,$sql);  //query executing function
+
+	if($fetch=mysqli_fetch_array($res))
+	{
+		if($fetch[role]==1) // role means admin or user , for admin set to 0 and for user set to
+		{
+			$_SESSION["email_id"]=$username;	// setting username as session variable
+			header("location:wlcmadmin.php");	//home page or the dashboard page to be redirected
+		}
+		else if($fetch[role]==0) // role means admin or user , for admin set to 0 and for user set to
+		{
+			$_SESSION["email_id"]=$username;	// setting username as session variable
+			header("location:state.php");
+
+		}
+
+	}
+
+
+}
+?>
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Simple Login Form</title>
+<meta charset="UTF-8" />
+<meta name="Designer" content="PremiumPixels.com">
+<meta name="Author" content="$hekh@r d-Ziner, CSSJUNTION.com">
+<link rel="stylesheet" type="text/css" href="css_login/reset.css">
+<link rel="stylesheet" type="text/css" href="css_login/structure.css">
+</head>
+
+<body>
+<form class="box login">
+	<fieldset class="boxBody">
+	  <label>Username</label>
+	  <input type="text" tabindex="1" placeholder="enter the username" required>
+	  <label><a href="#" class="rLink" tabindex="5">Forget your password?</a>Password</label>
+	  <input type="password" tabindex="2" required>
+	</fieldset>
+	<footer>
+	  <input type="submit" class="btnLogin" value="sign up" tabindex="4">
+	  <input type="submit" class="btnLogin" value="Login" tabindex="4">
+	</footer>
+</form>
+<footer id="main">
+  
+</footer>
+<div class="aa">
+<h2>Login</h2>
+<form name="myform"  method="post">
+
+
+<INPUT TYPE="TEXT" name="email_id" placeholder="please enter a username"><br>
+<BR> <INPUT TYPE="PASSWORD" name="password" placeholder="please enter a password">
+<br><br><input type="submit" value="Login" name="submit">&nbsp&nbsp&nbsp
+</form>
+</div>
+</div>
+
+  </div>
+
+</body>
+</html>
